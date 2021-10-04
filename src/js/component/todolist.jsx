@@ -1,8 +1,9 @@
 import React from "react";
+import { getTodos, updateTodos } from "../apis/api";
 
 export const ToDoList = () => {
 	const [newTask, setNewTask] = React.useState("");
-	const [listOfTasks, setListOfTasks] = React.useState([]);
+	const [listOfTasks, setListOfTasks] = React.useState(null);
 
 	const addToList = () => {
 		setListOfTasks([...listOfTasks, newTask]);
@@ -16,6 +17,31 @@ export const ToDoList = () => {
 
 		setListOfTasks(updatedList);
 	};
+
+	React.useEffect(() => {
+		// Loading initial todos from the server
+		const fn = async () => {
+			const todos = await getTodos();
+			setListOfTasks(todos.map(item => item.label));
+		};
+		fn();
+	}, []);
+
+	React.useEffect(() => {
+		// Update todos on the server
+		const fn = async () => {
+			updateTodos(
+				listOfTasks.map(item => ({ label: item, done: false }))
+			);
+		};
+		if (listOfTasks !== null) {
+			fn();
+		}
+	}, [listOfTasks]);
+
+	if (listOfTasks === null) {
+		return null;
+	}
 
 	return (
 		<div className="notePad container-fluid">
