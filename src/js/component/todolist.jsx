@@ -52,7 +52,7 @@ export const ToDoList = () => {
 				className="container inputfield"
 				type="text"
 				value={newTask}
-				placeholder="No tasks? add a task"
+				placeholder="Add a task"
 				onChange={event => setNewTask(event.target.value)}
 				onKeyUp={event => {
 					if (event.key === "Enter") {
@@ -64,9 +64,9 @@ export const ToDoList = () => {
 					}
 				}}
 			/>
-			{/* {listOfTasks.length == 0 ? (
+			{listOfTasks.length == 0 ? (
 				<p className="text-center">No tasks? add a task</p>
-			) : null} */}
+			) : null}
 
 			{listOfTasks.map((item, index) => {
 				return (
